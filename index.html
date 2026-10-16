@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08072f">
+  <title>Rise Task — Daily To-Do</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Rise Task home"><span>rise</span></a>
+      <div class="topbar-label">DAILY TASK MANAGER</div>
+      <div class="avatar" aria-hidden="true">RN</div>
+    </header>
+
+    <main>
+      <section class="welcome">
+        <div>
+          <p class="eyebrow">WORK SMART, FEEL LIGHT</p>
+          <h1>Rencanakan hari,<br><span>selesaikan satu per satu.</span></h1>
+          <p class="welcome-copy">Simpan fokusmu untuk hal yang benar-benar penting.</p>
+        </div>
+        <div class="date-card">
+          <span class="date-icon" aria-hidden="true">◷</span>
+          <span id="dayName" class="day-name">Hari ini</span>
+          <strong id="todayDate">Memuat tanggal…</strong>
+          <span id="clock">--:--:--</span>
+        </div>
+      </section>
+
+      <section class="profile-strip" aria-label="Profil pengguna">
+        <div class="profile-avatar">RN</div>
+        <div class="profile-info">
+          <span class="muted-label">PROFILE</span>
+          <strong id="profileName">Raka Nugraha</strong>
+          <span id="profileRole">Project Manager</span>
+        </div>
+        <button class="text-button" id="editProfileBtn" type="button">Edit profil</button>
+      </section>
+
+      <section class="composer panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">NEW TASK</p>
+            <h2>Apa yang ingin kamu selesaikan?</h2>
+          </div>
+          <span class="heading-mark">✳</span>
+        </div>
+
+        <form id="taskForm">
+          <label for="taskInput">Nama tugas</label>
+          <textarea id="taskInput" rows="2" maxlength="180" placeholder="Contoh: Menyiapkan presentasi mingguan…" required></textarea>
+
+          <div class="form-bottom">
+            <div class="priority-field">
+              <label for="priorityInput">Level prioritas</label>
+              <select id="priorityInput">
+                <option value="low">Low — bisa menunggu</option>
+                <option value="medium" selected>Medium — penting</option>
+                <option value="high">High — segera</option>
+              </select>
+            </div>
+
+            <div class="deadline-field">
+              <label for="deadlineInput">Deadline tugas</label>
+              <input
+                type="datetime-local"
+                id="deadlineInput"
+                name="deadline"
+              >
+            </div>
+
+            <button class="primary-button" type="submit">
+              <span>＋</span> Tambah tugas
+            </button>
+          </div>
+
+          <p class="form-hint">Tambahkan deadline agar kamu bisa memantau tugas yang mendekati tenggat atau terlambat.</p>
+        </form>
+      </section>
+
+      <section class="stats-grid" aria-label="Ringkasan tugas">
+        <article class="stat-card">
+          <span class="stat-label">TOTAL TUGAS</span>
+          <strong id="totalCount">0</strong>
+          <span class="stat-foot">Semua aktivitas</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">TO DO</span>
+          <strong id="todoCount">0</strong>
+          <span class="stat-foot">Menunggu dikerjakan</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">DONE</span>
+          <strong id="doneCount">0</strong>
+          <span class="stat-foot">Berhasil diselesaikan</span>
+        </article>
+        
+      <article class="stat-card overdue-stat-card">
+        <span class="stat-label">OVERDUE</span>
+        <strong id="overdueCount">0</strong>
+        <span class="stat-foot">Tugas melewati deadline</span>
+      </article>
+
+      </section>
+
+      <!-- PANEL LATE / OVERDUE -->
+      <section class="late-panel" id="latePanel" aria-label="Tugas terlambat" hidden>
+        <div class="late-panel-heading">
+          <div class="late-title-wrap">
+            <span class="late-icon">!</span>
+            <div>
+              <h2>Late / Overdue</h2>
+              <p>Tugas yang sudah melewati deadline</p>
+            </div>
+          </div>
+
+          <span class="late-count" id="lateCount">0 tugas</span>
+        </div>
+
+        <div id="lateList" class="late-list"></div>
+      </section>
+
+      <section class="task-board">
+        <div class="board-column">
+          <div class="column-heading">
+            <div>
+              <span class="column-dot todo-dot"></span>
+              <h2>To Do</h2>
+              <span class="count-pill" id="todoPill">0</span>
+            </div>
+            <span class="column-subtitle">Fokus berikutnya</span>
+          </div>
+          <div id="todoList" class="task-list" aria-live="polite"></div>
+        </div>
+
+        <div class="board-column">
+          <div class="column-heading">
+            <div>
+              <span class="column-dot done-dot"></span>
+              <h2>Done</h2>
+              <span class="count-pill" id="donePill">0</span>
+            </div>
+            <span class="column-subtitle">Sudah kamu tuntaskan</span>
+          </div>
+          <div id="doneList" class="task-list" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="bottom-actions">
+        <p>
+          <strong>Langkah kecil tetap sebuah kemajuan.</strong><br>
+          <span>Jaga ritme, bukan hanya kecepatan.</span>
+        </p>
+        <button class="danger-button" id="deleteAllBtn" type="button">Hapus semua tugas</button>
+      </section>
+    </main>
+
+    <footer>RISE TASK <span>•</span> Buat harimu lebih terarah.</footer>
+  </div>
+
+  <dialog id="profileDialog" class="profile-dialog">
+    <form id="profileForm">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">PERSONALIZE</p>
+          <h2>Profil kamu</h2>
+        </div>
+        <button class="icon-button" id="closeProfileBtn" type="button" aria-label="Tutup">×</button>
+      </div>
+
+      <label for="nameInput">Nama</label>
+      <input id="nameInput" maxlength="50" required>
+
+      <label for="roleInput">Jabatan</label>
+      <input id="roleInput" maxlength="60" required>
+
+      <div class="dialog-actions">
+        <button class="secondary-button" id="cancelProfileBtn" type="button">Batal</button>
+        <button class="primary-button" type="submit">Simpan profil</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
